@@ -28,4 +28,6 @@ I'm currently undergoing my Bacherlor of Arts majoring in :
 - I am taking STATS 220 as I would like to expand and build on my existing skillset. Whislt gaining a greater understanding of data : aquasition, storage and processing.
 - I am intrested in learning the various ways data can be aquired , manipulated and visually portrayed. 
 
-A meme that captures how I currently feel about stats220 is ![](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG1sOWE0YTd5MXkzN2NrNWowcm83YWF3MXJxNnJ4ajJuN29uZzEyNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOY7amTI3QyIbZe/giphy.gif)
+A meme that captures how I currently feel about stats220 is ...
+
+![](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG1sOWE0YTd5MXkzN2NrNWowcm83YWF3MXJxNnJ4ajJuN29uZzEyNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOY7amTI3QyIbZe/giphy.gif)
