@@ -1,0 +1,123 @@
+---
+title: My Dynamic Report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+body {
+       background-image : url("https://img.freepik.com/premium-vector/seamless-pattern-with-cute-characters-takeaway-coffee-endless-background-retro-nostalgic-style_248911-2075.jpg?ga=GA1.1.657517678.1743494672&semt=ais_hybrid") ;
+       font-size: 100%;
+       background-size: contain ;
+       color : white ;
+       }
+
+p {
+    font-family : "Times New Roman" ; 
+    background-color :#ffa4a4 ;
+    font-weight : 400 ;
+    font-size : 2em ;
+    color : white ;
+  }
+
+h1{ 
+
+   text-align: center ;
+   background-color: #ffa4a4 ;
+   font-weight: 700 ;
+   font-size: 20vw;
+   text : white ;
+   border: 5px double white;
+   
+   }
+   
+h2{
+    text-align: center ;
+    background-color:#ffa4a4 ;
+    font-size: 4em  ;
+    text : white ; 
+    border: 5px dotted white;
+  }   
+   
+img {
+  display: block;
+  margin: auto;
+  width: 50%;
+    }
+    
+
+
+
+```
+
+## The Drink Report: Beverage Purchase Insights
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+logged_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwbAiiwD9DprgTs_x6aT4Ucoc0wHOyEyD63iZKN-zaDZvA_9SNW5Dq1tk0RPsxNOpZYMZmLi9_fpkX/pub?output=csv"
+
+latest_data <- read_csv(logged_data) %>%
+     rename( weekday = 2,
+            beverage_type = 3,
+            location = 4,
+            beverage_cost = 5,
+            time_purchased = 6,
+            amount_purchashed = 7,
+            prefrance = 8)
+
+```
+
+```{r}
+cost_mean <- mean(latest_data$beverage_cost)
+print(cost_mean)
+```
+
+Upon observing the cost of beverages purchased, the average price per beverage bought is \$`r cost_mean`.
+
+```{r}
+soda_sum <- sum(latest_data$amount_purchashed[latest_data$beverage_type=="Soda"])
+
+juice_sum <- sum(latest_data$amount_purchashed[latest_data$beverage_type=="Juice"])
+
+hdrink_sum <- sum(latest_data$amount_purchashed[latest_data$beverage_type=="Hot Drink"])
+
+water_sum <- sum(latest_data$amount_purchashed[latest_data$beverage_type=="Water"])
+
+icedbev_sum <- sum(latest_data$amount_purchashed[latest_data$beverage_type=="Iced Beverage"])
+
+print(soda_sum)
+print(juice_sum)
+print(hdrink_sum)
+print(water_sum)
+print(icedbev_sum)
+```
+
+Observing the amount of each beverage type purchased. I found that Sodas was purchased more, with the amount of `r soda_sum`. Comparing it to beverages such as water , with the amount of`r water_sum`, and iced beverages , with the amount of `r icedbev_sum`.
+
+```{r}
+ggplot(latest_data, aes(x = time_purchased , y = amount_purchashed, fill = time_purchased ,)) +
+  geom_bar(stat = "identity") + labs(title = "The Amount of Beverages Bought in Different Time Intervals",
+                                     x = "Time Intervals",
+                                     y = "Amount Purchased")+
+              theme_minimal(base_size = 7.5)
+
+```
+
+
+The bar graph above shows that the amount of beverages bought during different intervals throughout the day. I observed that there are more beverages bought in the afternoon than in the morning and evening. Due to the interval I associated with the afternoon , 12pm - 7pm , it's more likely to have more beverages purchased. As This interval includes times for lunch and dinner ( in some instances). 
+
+
+```{r}
+ggplot(latest_data, aes(x = beverage_type, y = prefrance , fill = beverage_type , color = )) +
+  geom_bar(stat = "identity") + labs(title = "Prefrance for Different Types of Beverages",
+                                         x = "Types of Beverages",
+                                         y = "Prefrance")  
+```
+
+Observing the relationship between the different types of beverages and their preferences, its safe to say that Hot Drinks are preferred more than other types of beverages. 
