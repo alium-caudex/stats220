@@ -11,24 +11,24 @@ This is my repo for STATS 220.
   
 
   ### My top 5 favourite movies are:
-  1. The Devil Wears Prada
+1. The Devil Wears Prada
      
      ![](https://m.media-amazon.com/images/M/MV5BOWM3NTI3YWEtYjJmMy00M2U5LWI1NzEtZWM3ZDY2ZWNjOGRiXkEyXkFqcGc@._V1_FMjpg_UX300_.jpg)
      
-  2. Barbie and the 12 Dancing Princesses
+2. Barbie and the 12 Dancing Princesses
     
      ![](https://m.media-amazon.com/images/M/MV5BMTQ0MzU5NjU3NF5BMl5BanBnXkFtZTgwNzkzMTA2MDE@._V1_QL75_UX300_.jpg)
   
-  3. Incantation
+3. Incantation
     
      ![](https://m.media-amazon.com/images/M/MV5BY2U2YjU0M2MtZjIxZC00ZDZjLWI2NjItN2MwMmVhM2RkMjNiXkEyXkFqcGc@._V1_QL75_UY562_CR4,0,380,562_UX300_.jpg)
  
-  4. Blended
+4. Blended
      
      ![](https://m.media-amazon.com/images/M/MV5BNzc2ODI5NjAyMl5BMl5BanBnXkFtZTgwMzIyOTE4MDE@._V1_UX300_.jpg)
 
      
-  5. Mamma Mia
+5. Mamma Mia
      
      ![](https://m.media-amazon.com/images/M/MV5BMTA2MDU0MjM0MzReQTJeQWpwZ15BbWU3MDYwNzgwNzE@._V1_UX300_.jpg)
 
