@@ -1,0 +1,188 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+:root {
+  /* Blue shades */
+  --blue-lightest: #E6F0FA;
+  --blue-light:    #A6CEE3;
+  --blue-medium:   #1F78B4;
+  --blue-dark:     #08306B;
+  --blue-accent:   #6BAED6;
+}
+
+/* General body styling */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: var(--blue-lightest);
+  color: var(--blue-dark);
+  margin: 0;
+  padding: 20px;
+  text-align: center; /* Default text centering */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5 {
+  color: var(--blue-dark);
+  text-align: center;
+}
+
+/* Paragraphs */
+p {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Center images (including R plots saved as images) */
+img, .plot, .r-plot {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;  /* Ensure responsiveness */
+}
+
+/* Cards / panels for content */
+.card {
+  background-color: white;
+  border-left: 6px solid var(--blue-medium);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Buttons */
+button {
+  background-color: var(--blue-medium);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--blue-accent);
+}
+
+/* Tables */
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+th {
+  background-color: var(--blue-medium);
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid var(--blue-light);
+}
+
+/* Legend / badges */
+.badge {
+  background-color: var(--blue-accent);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9em;
+}
+
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+logged_data <- ("https://docs.google.com/spreadsheets/d/e/2PACX-1vQZ4L6UCr6ws9Wg72rodm6Jwq9WS535WbyvqjKXec4qsKqUSmWo4sjtix7IbzeelsWpa3EbwwSEwTya/pub?gid=858050168&single=true&output=csv") 
+
+latest_data <- read_csv(logged_data) |>
+  rename(time_seen = 3,
+         platform_viewed = 4,
+         duration = 5,
+         add_content = 6,
+         relevancy = 7)
+
+## remove the score column as not needed, use select()
+latest_data <- latest_data |>
+  select(-Score)
+
+```
+## Advertisement Viewing Report
+
+This dynamic report explores patterns in advertisement viewing across different times of the day and platforms. It provides an overview of when ads are most frequently viewed, how engagement varies throughout the day, and which platforms contribute the most to overall viewing duration. By combining time-based and platform-level analysis, the report highlights key trends and peak activity periods, offering insights into audience behavior. These findings can support more effective ad scheduling and targeting strategies to maximize reach and engagement.
+
+### Advertisement Exposure by Platform and Total Viewing Time
+
+```{r}
+sec_viewing_time <- sum(latest_data$duration)
+
+min_viewing_time <- sec_viewing_time / 60
+```
+
+Over the course of this data collection, the duration of each advertisement in seconds was recorded. Resulting in the sum of time exposed to advertisements equaling `r sec_viewing_time` seconds, which equates to `r min_viewing_time` minutes.
+
+
+```{r}
+most_viewed <- latest_data |>
+  group_by(platform_viewed) |>
+  summarise(total_duration = sum(duration, na.rm = TRUE)) |>
+  arrange(desc(total_duration)) |>
+  slice(1)
+
+most_viewed_platform <- most_viewed$platform_viewed
+
+```
+Various platforms where ads were viewed was observed, namely: YouTube, TV, Social Media, Website, G-mail. Upon closer inspection of data it was observed that `r most_viewed_platform` was the platform with the most exposure to advertisements.
+
+### Plots
+
+```{r}
+blue_shades <- c(
+  "Morning (06:00 - 12:00)" = "#A6CEE3",
+  "Afternoon (12:00 - 18:00)" = "#1F78B4",
+  "Evening (18:00 - 00:00)" = "#6BAED6",
+  "Night (00:00 - 06:00)" = "#08306B"
+)
+
+ggplot(latest_data) +
+  geom_bar(aes(x = time_seen, fill = time_seen)) + 
+  labs(
+    title = "Ad Viewing Activity by Time of Day",
+    x = "Time Intervals",
+    y = "Number of Ads Viewed",
+    fill = "Time Intervals"
+  ) +
+  scale_fill_manual(values = blue_shades) +  # Apply custom blue shades
+  theme_minimal(base_size = 9) +
+  theme(
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+```
+This bar plot illustrates the number of advertisements viewed during different time intervals throughout the day. The x-axis categorizes the day into four segments: Morning (06:00–12:00), Afternoon (12:00–18:00), Evening (18:00–00:00), and Night (00:00–06:00). The distinct shades of blue visually differentiate the time intervals, making it easy to compare ad engagement patterns across the day. This visualization helps identify peak times for ad exposure and can inform scheduling strategies to maximize audience reach.
+
+```{r}
+ggplot(latest_data, aes(x = duration, y = platform_viewed, fill = duration)) +
+  geom_bar(stat = "identity") + labs(title = "Duration Of Ads Watched On Different Platforms",
+                                     x = "Duration (in seconds)",
+                                     y = "Platforms Ads Viewed On",
+                                     fill = "Ad Length In seconds")
+```
+
+This horizontal stacked bar chart displays the total duration of advertisements watched across different platforms, measured in seconds. Each bar represents a platform: YouTube, Website, TV, Social Media, and G-mail and is segmented by varying shades of blue that correspond to different ad lengths in seconds, as indicated by the color legend. The gradient of blues highlights the diversity in ad lengths watched on each platform, providing insight into how advertisement exposure varies by platform and ad duration. This visualization can help inform targeted advertising strategies based on platform engagement and ad length preferences.
